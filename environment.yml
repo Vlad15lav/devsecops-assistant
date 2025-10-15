@@ -1,0 +1,6 @@
+name: devsecops
+dependencies:
+  - matplotlib
+  - numpy
+  - pandas
+  - pathlib
