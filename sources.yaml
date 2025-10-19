@@ -1,0 +1,9 @@
+sources:
+  - name: Безопасность vps сервера.pdf
+    url: https://www.dropbox.com/scl/fi/zou78goglty8q83g50oo6/VPS.pdf?rlkey=kfhinpobtafnqmtbjj2r3ju9m&st=dek2e516&dl=1
+  - name: Безопасность Docker.pdf
+    url: https://www.dropbox.com/scl/fi/1ur82yktpzn0rpj4003rs/Docker.pdf?rlkey=jijwvvl8wl6ni5j9d9l8fxw7r&st=z9i73jy6&dl=1
+  - name: Безопасность CI_CD.pdf
+    url: https://www.dropbox.com/scl/fi/mfiz19uriozcfhu2p1p5z/CI_CD-o-10-OWASP.pdf?rlkey=cum2if6jek64pesywt3afd2w1&st=8td0inip&dl=1
+  - name: Методы защиты k8s.pdf
+    url: https://www.dropbox.com/scl/fi/pzrfgy84thb9h3fn20no6/Kubernetes.pdf?rlkey=beze6ewp9v31v12bcdhffijht&st=vsmh4wum&dl=1
