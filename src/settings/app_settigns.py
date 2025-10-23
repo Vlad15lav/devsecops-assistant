@@ -120,6 +120,33 @@ class AppSettings(BaseSettings):
         env="TOP_K_DOCS"
     )
 
+    # Параметры FastAPI
+    fastapi_host: str = Field(
+        default="127.0.0.1",
+        description="Хост для FastAPI",
+        env="FASTAPI_HOST"
+    )
+    fastapi_port: int = Field(
+        default=8000,
+        description="Порт для FastAPI",
+        env="FASTAPI_PORT"
+    )
+    app_name: str = Field(
+        default="DevSecOps RAG",
+        description="Название приложения",
+        env="APP_NAME"
+    )
+    version: str = Field(
+        default="0.1.0",
+        description="Версия приложения",
+        env="VERSION"
+    )
+    debug: bool = Field(
+        default=False,
+        description="Режим отладки",
+        env="DEBUG"
+    )
+
     def build_dsn(self, db_name: Optional[str] = None) -> str:
         db = db_name or self.postgres_db_name
         user = self.postgres_user
@@ -127,6 +154,3 @@ class AppSettings(BaseSettings):
         host = self.postgres_host
         port = self.postgres_port
         return f"postgresql://{user}:{pwd}@{host}:{port}/{db}"
-
-
-settings = AppSettings()
