@@ -1,9 +1,9 @@
 from typing import List
 from langchain.schema import BaseMessage, HumanMessage
 from src.application.agents.base_agent import AgentState
-from src.application.workflow.graph import get_compiled_graph
-from src.domain.internal.user_request import UserRequest
-from src.domain.internal.chatbot_response import ChatbotResponse
+from src.application.workflows.graph import get_compiled_graph
+from src.domain.entities.internal.user_request import UserRequest
+from src.domain.entities.internal.chatbot_response import ChatbotResponse
 
 
 class ChatBot:

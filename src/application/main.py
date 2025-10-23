@@ -1,5 +1,5 @@
 from src.application.workflows.chatbot import ChatBot
-from src.domain.internal.user_request import UserRequest
+from src.domain.entities.internal.user_request import UserRequest
 
 
 if __name__ == "__main__":
