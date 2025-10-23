@@ -86,6 +86,40 @@ class AppSettings(BaseSettings):
         env="PGVECTOR_DIM"
     )
 
+    # LLM настройки
+    llm_base_url: Optional[str] = Field(
+        default=None,
+        description="Базовый URL для подключения к LLM",
+        env="LLM_BASE_URL"
+    )
+    llm_model_name: Optional[str] = Field(
+        default=None,
+        description="Имя модели LLM",
+        env="LLM_MODEL_NAME"
+    )
+    llm_api_key: Optional[str] = Field(
+        default=None,
+        description="API ключ для подключения к LLM",
+        env="LLM_API_KEY"
+    )
+    llm_temperature: float = Field(
+        default=0.0,
+        description="Температура LLM",
+        env="LLM_TEMPERATURE"
+    )
+    prompts_path: str = Field(
+        default="./src/application/prompts",
+        description="Каталог с промптами LLM",
+        env="PROMPTS_PATH"
+    )
+
+    # Параметры RAG агента
+    top_k_docs: int = Field(
+        default=3,
+        description="Количество документов для использования в RAG агенте",
+        env="TOP_K_DOCS"
+    )
+
     def build_dsn(self, db_name: Optional[str] = None) -> str:
         db = db_name or self.postgres_db_name
         user = self.postgres_user
