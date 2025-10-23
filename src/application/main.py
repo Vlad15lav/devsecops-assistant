@@ -1,4 +1,4 @@
-from src.application.workflow.chatbot import ChatBot
+from src.application.workflows.chatbot import ChatBot
 from src.domain.internal.user_request import UserRequest
 
 
