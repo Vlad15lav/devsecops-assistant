@@ -14,6 +14,27 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - project_network
+
+  fastapi:
+    build:
+      context: .
+      dockerfile: ./src/api/Dockerfile
+    container_name: fastapi_app
+    env_file: .env
+    environment:
+      POSTGRES_HOST: postgres
+    depends_on:
+      - postgres
+    ports:
+      - "${FASTAPI_PORT}:${FASTAPI_PORT}"
+    networks:
+      - project_network
 
 volumes:
   pgdata:
+
+networks:
+  project_network:
+    external: true
