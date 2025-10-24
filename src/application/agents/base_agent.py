@@ -2,7 +2,8 @@ import os
 
 from abc import abstractmethod
 from typing import Optional, Any
-# from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
 from langchain_groq import ChatGroq
 from langchain.schema.runnable import Runnable
 from src.application.models.agent_state import AgentState
@@ -12,11 +13,7 @@ from langchain.prompts import (
     MessagesPlaceholder,
     PromptTemplate
 )
-from langchain.prompts.chat import (
-    SystemMessagePromptTemplate,
-    # HumanMessagePromptTemplate,
-    # AIMessagePromptTemplate
-)
+from langchain.prompts.chat import SystemMessagePromptTemplate
 
 from src.settings.app_settigns import AppSettings
 
@@ -78,12 +75,25 @@ class BaseAgent:
 
     def _create_runnable_chain(self) -> Runnable:
         if self.llm is None:
-            model = ChatGroq(
-                # base_url=self.settings.llm_base_url,
-                model=self.settings.llm_model_name,
-                api_key=self.settings.llm_api_key,
-                temperature=self.settings.llm_temperature,
-            )
+            if self.settings.llm_type == "openai":
+                model = ChatOpenAI(
+                    model=self.settings.llm_model_name,
+                    api_key=self.settings.llm_api_key,
+                    temperature=self.settings.llm_temperature,
+                )
+            elif self.settings.llm_type == "groq":
+                model = ChatGroq(
+                    model=self.settings.llm_model_name,
+                    api_key=self.settings.llm_api_key,
+                    temperature=self.settings.llm_temperature,
+                )
+            elif self.settings.llm_model_name == "ollama":
+                model = ChatOllama(
+                    model=self.settings.llm_model_name,
+                    base_url=self.settings.llm_base_url,
+                    api_key=self.settings.llm_api_key,
+                    temperature=self.settings.llm_temperature,
+                )
         else:
             model = self.llm
 
