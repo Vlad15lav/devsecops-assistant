@@ -1,56 +1,67 @@
-devsecops
-==============================
+# 🛡️ DevSecOps Assistant
 
-A short description of the project.
+**DevSecOps Assistant** — это умный чат-бот 🤖, который помогает решать задачи **безопасности инфраструктуры DevOps**.  
+Он анализирует, подсказывает и автоматизирует процессы, связанные с защитой систем, CI/CD и контейнерных сред.
 
-Project Organization
-------------
+---
 
-    ├── LICENSE             <- MIT license file
-    ├── Makefile            <- Makefile with commands like `make data` or `make train`
-    ├── README.md           <- The top-level README for individuals using this project
-    ├── data
-    │   ├── intermediate    <- Intermediate data that has been transformed
-    │   ├── processed       <- The final, canonical data sets for modeling
-    │   └── raw             <- The original, immutable data dump
-    │
-    ├── docs                <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── models              <- Trained and serialized models, model predictions, or model summaries
-    │
-    ├── notebooks           <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                          the creator's initials, and a short `-` delimited description, e.g.
-    │                          `1.0-ilm-initial-data-exploration`.
-    │
-    ├── references          <- Data dictionaries, manuals, and all other explanatory materials
-    │
-    ├── reports             <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures         <- Generated graphics and figures to be used in reporting
-    |
-    ├── results             <- Generated results from data analysis and fitting models
-    │
-    ├── src                 <- Source code for use in this project
-    │   ├── __init__.py     <- Makes src a Python module
-    │   │
-    │   ├── data            <- Scripts to load and process data
-    │   │   └── load_data.py
-    |   |   └── create_int_data
-    │   │   └── create_pro_data.py
-    │   │
-    │   ├── models          <- Scripts for models and fitting processed data
-    │   │   └── model.py
-    │   │
-    │   └── visualization   <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
-    │
-    ├── requirements.txt    <- The requirements file for reproducing the analysis environment, e.g.
-    │                          generated with `pip freeze > requirements.txt`
-    │
-    ├── setup.py            <- makes project pip installable (pip install -e .) so src can be imported
-    |
-    └── test_environment.py <- checks that correct python interpreter is installed
+## 🧩 Структура проекта
+
+Проект разделён на логические компоненты:
+
+* `src/` — исходный код чат-бота  
+* `src/api/` — REST API для взаимодействия с ботом  
+* `src/application/` — LLM-агент и бизнес-логика  
+* `src/data/` — база данных **PostgreSQL + pgvector** для RAG  
+* `src/domain/` — описания доменных сущностей  
+* `src/settings/` — конфигурационные параметры приложения
+* `.env` — параметры приложения
+* `docker-compose.yaml` — описание сервисов для контейнеризации  
+* `README.md` — текущий файл с документацией  
+* `sources.yaml` — источники документов для RAG
 
 
---------
+---
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+## ⚙️ Возможности
+
+💬 **DevSecOps Assistant** умеет:
+
+* 🔒 Отвечать на вопросы по безопасности **VPS серверов**  
+* 🐳 Помогать с безопасностью **Docker** контейнеров  
+* 🚀 Подсказывать лучшие практики **CI/CD** пайплайнов  
+* ☸️ Анализировать конфигурации **Kubernetes**  
+* 🧱 Модерировать запросы и фильтровать результаты  
+* 🧠 Работать с контекстом через RAG (Retrieval-Augmented Generation)
+
+---
+
+## 🚀 Инструкция по запуску
+
+1. Установите **Docker** и менеджер пакетов **uv**  
+2. Заполните **.env** файл на основе **.env_example**
+2. Запустите сервисы:
+```bash
+docker-compose up -d
+```
+3. Установите зависимости:
+```bash
+uv sync --frozen
+```
+4. Инициализируйте базу данных и загрузите документы:
+```bash
+uv run ./src/data/init_db.py
+```
+5. Откройте интерфейс API в браузере:
+👉 `http://localhost:8000/api`
+6. Введите свой запрос и нажмите "Execute" 💡
+
+## 🧠 Технологический стек
+
+- 🐍 Python (FastAPI, uvicorn)
+- 🧩 PostgreSQL + pgvector
+- ⚙️ Docker + docker-compose
+- 🤖 LangChain — построение цепочек взаимодействия с LLM
+- 🕸️ LangGraph — оркестрация и управление агентными графами
+- 📚 RAG (Retrieval-Augmented Generation) — интеллектуальный поиск и использование знаний
+- ⚡ LLM-агентная архитектура — для диалогового анализа и принятия решений
