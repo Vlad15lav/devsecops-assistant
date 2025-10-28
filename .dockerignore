@@ -1,0 +1,48 @@
+# --- Общие мусорные файлы ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.sqlite3
+*.db
+*.DS_Store
+*.swp
+*.swo
+
+# --- Python виртуальные окружения ---
+.venv/
+env/
+venv/
+ENV/
+
+# --- Кеши и временные директории ---
+.cache/
+pytest_cache/
+.mypy_cache/
+build/
+dist/
+.eggs/
+
+# --- Git и IDE ---
+.git/
+.gitignore
+.gitattributes
+.idea/
+.vscode/
+*.code-workspace
+
+# --- Docker ---
+Dockerfile
+docker-compose.yaml
+.dockerignore
+
+# --- Утилиты и конфиги локальные ---
+.env
+.env.*
+!env.example
+
+# --- Документация и тесты ---
+tests/
+docs/
+*.md
