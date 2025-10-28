@@ -75,19 +75,19 @@ class BaseAgent:
 
     def _create_runnable_chain(self) -> Runnable:
         if self.llm is None:
-            if self.settings.llm_type == "openai":
+            if self.settings.llm_provider == "openai":
                 model = ChatOpenAI(
                     model=self.settings.llm_model_name,
                     api_key=self.settings.llm_api_key,
                     temperature=self.settings.llm_temperature,
                 )
-            elif self.settings.llm_type == "groq":
+            elif self.settings.llm_provider == "groq":
                 model = ChatGroq(
                     model=self.settings.llm_model_name,
                     api_key=self.settings.llm_api_key,
                     temperature=self.settings.llm_temperature,
                 )
-            elif self.settings.llm_model_name == "ollama":
+            elif self.settings.llm_provider == "ollama":
                 model = ChatOllama(
                     model=self.settings.llm_model_name,
                     base_url=self.settings.llm_base_url,

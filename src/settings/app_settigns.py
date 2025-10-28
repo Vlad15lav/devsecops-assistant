@@ -87,6 +87,11 @@ class AppSettings(BaseSettings):
     )
 
     # LLM настройки
+    llm_provider: str = Field(
+        default="openai",
+        description="Провайдер LLM",
+        env="LLM_PROVIDER"
+    )
     llm_base_url: Optional[str] = Field(
         default=None,
         description="Базовый URL для подключения к LLM",
