@@ -35,12 +35,33 @@ class VectorStoreDB:
 
     async def execute(
         self,
-        query: str,
         user_query: str,
+        filename: str,
         **kwargs
     ) -> List[str]:
-        if not isinstance(query, str) or not query.strip():
-            raise ValueError("SQL запрос должен быть не пустой строкой!")
+        if len(user_query) == 0:
+            raise ValueError("Запрос пользователя не должен быть пустым!")
+
+        filename_valid = filename.lower()
+
+        if "vps" in filename_valid:
+            filename = "Безопасность vps сервера.pdf"
+        elif "docker" in filename_valid:
+            filename = "Безопасность Docker.pdf"
+        elif "ci_cd" in filename_valid:
+            filename = "Безопасность CI_CD.pdf"
+        elif "k8s" in filename_valid or "kubernetes" in filename_valid:
+            filename = "Методы защиты k8s.pdf"
+        else:
+            raise ValueError(
+                "Не удалось определить файл. "
+                "Файл должнен содержаться имя: "
+                "'Безопасность vps сервера.pdf', "
+                "'Безопасность Docker.pdf', "
+                "'Безопасность CI_CD.pdf', "
+                "'Методы защиты k8s.pdf'."
+            )
+
         # Получаем embedding от модели
         emb = self.hf_model.encode(user_query)
         try:
@@ -53,6 +74,14 @@ class VectorStoreDB:
 
         # Представление вектора в формате, который можно передать в pgvector
         vec_lit = "[" + ",".join(repr(x) for x in vec_list) + "]"
+
+        query = """
+            SELECT content
+            FROM documents
+            WHERE filename = $1
+            ORDER BY embedding <=> $2::vector ASC
+            LIMIT $3
+        """
         # Используем асинхронный context manager класса для подключения
         async with self:
             if not self.conn:
@@ -60,6 +89,7 @@ class VectorStoreDB:
             try:
                 rows = await self.conn.fetch(
                     query,
+                    filename,
                     vec_lit,
                     AppSettings().top_k_docs
                 )
@@ -67,46 +97,6 @@ class VectorStoreDB:
                 raise RuntimeError(f"Database query failed: {e}") from e
 
         return [r["content"] for r in rows]
-
-    # async def execute(
-    #     self,
-    #     filename: str,
-    #     query: str,
-    #     top_k: int = 5
-    # ) -> List[str]:
-    #     dsn = AppSettings().build_dsn()
-
-    #     # query ожидается как строка -> получить embedding через модель
-    #     if not isinstance(query, str) or not query.strip():
-    #         raise ValueError("query must be a non-empty string")
-
-    #     # получить вектор (numpy array) от SentenceTransformer
-    #     emb = self.hf_model.encode(query, convert_to_numpy=True)
-    #     try:
-    #         vec_list = [float(x) for x in emb]
-    #     except Exception:
-    #         raise ValueError("Model produced non-numeric embedding")
-
-    #     if len(vec_list) == 0:
-    #         return []
-
-    #     vec_lit = "[" + ",".join(repr(x) for x in vec_list) + "]"
-
-    #     sql = """
-    #         SELECT content
-    #         FROM documents
-    #         WHERE filename = $2
-    #         ORDER BY embedding <=> $1::vector DESC
-    #         LIMIT $3
-    #     """
-
-    #     conn = await asyncpg.connect(dsn)
-    #     try:
-    #         rows = await conn.fetch(sql, vec_lit, filename, int(top_k))
-    #     finally:
-    #         await conn.close()
-
-    #     return [r['content'] for r in rows]
 
 
 if __name__ == "__main__":
