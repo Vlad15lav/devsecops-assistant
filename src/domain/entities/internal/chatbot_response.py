@@ -3,5 +3,5 @@ from typing import List
 
 
 class ChatbotResponse(BaseModel):
-    answer: str
-    retriever_docs: List[str]
+    answer: str  # Итоговый ответ
+    retriever_docs: List[str]  # Использованные документы

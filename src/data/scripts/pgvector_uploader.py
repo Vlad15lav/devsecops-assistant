@@ -4,6 +4,8 @@ from typing import List
 
 
 class PgVectorUploader:
+    """Загружает список векторов в базу данных Retriever."""
+
     def __init__(self, dsn: str):
         self.dsn = dsn
         self.conn = None

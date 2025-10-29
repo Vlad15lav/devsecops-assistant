@@ -11,7 +11,7 @@ class ChatBot:
         self.graph = graph
 
     def _get_response_from_state(self, state: AgentState) -> ChatbotResponse:
-        """Extract the formatted answer from the final agent state."""
+        """Вывод ответа из состояния."""
         # Проверка модерации
         moderation_output = state.get("moderation_output")
         if moderation_output and not moderation_output.is_relevant:
@@ -38,19 +38,20 @@ class ChatBot:
         self,
         request: UserRequest
     ) -> List[BaseMessage]:
-        """Combine chat history with current user request."""
+        """Конвертация запроса в список сообщений."""
         return [HumanMessage(content=request.query)]
 
     async def run(self, request: UserRequest) -> ChatbotResponse:
+        """Выполнение запроса пользователя."""
         try:
-            # Build state with history and current message
+            # Создание состояния агента с запросом пользователя
             state = AgentState(
                 messages=self._user_request_to_messages(request)
             )
             result_state_dict = await self.graph.ainvoke(
                 state
             )
-            # Get response
+            # Получение ответа
             chatbot_response = self._get_response_from_state(result_state_dict)
 
             return chatbot_response

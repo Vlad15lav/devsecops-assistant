@@ -13,7 +13,7 @@ class WriterAgent(BaseAgent):
         )
 
     def _prepare_input(self, state: AgentState) -> AgentState:
-        """Prepare input for the writer agent."""
+        """Преподготовка входных данных."""
         return state
 
     async def _handle_output(
@@ -21,6 +21,6 @@ class WriterAgent(BaseAgent):
         result: WriterOutput,
         state: AgentState
     ) -> AgentState:
-        """Store the writer result."""
+        """Запись результата в историю сообщений."""
         state["writer_agent_output"] = result
         return state

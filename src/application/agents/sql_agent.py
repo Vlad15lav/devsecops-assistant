@@ -15,7 +15,7 @@ class SQLAgent(BaseAgent):
         )
 
     async def _aprepare_input(self, state: AgentState) -> AgentState:
-        """Prepare input for the sql agent."""
+        """Преподготовка входных данных."""
         return state
 
     async def _handle_output(
@@ -23,7 +23,7 @@ class SQLAgent(BaseAgent):
         result: AIMessage,
         state: AgentState
     ) -> AgentState:
-        """Store the sql result."""
+        """Запись результата в историю сообщений."""
         returned_rows = self._extract_data_from_tool(state, "sql_tool")
 
         if returned_rows and not isinstance(returned_rows[0], dict):

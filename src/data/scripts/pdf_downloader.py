@@ -3,6 +3,8 @@ import wget
 
 
 class PdfDownloader:
+    """Класс для загрузки PDF-файлов."""
+
     def __init__(self, files_name_list, pdf_files_list):
         self.files_name_list = files_name_list
         self.pdf_files_list = pdf_files_list

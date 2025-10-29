@@ -12,7 +12,7 @@ from langgraph.prebuilt import ToolNode
 
 
 def _needs_tool(state: AgentState) -> bool:
-    """Return True if the last AI message in history requests tool calls."""
+    """Вспомогательная функция для определения необходимости инструмента."""
     messages = state.get("messages") or []
     if not messages:
         return False
@@ -23,7 +23,7 @@ def _needs_tool(state: AgentState) -> bool:
 
 
 def _is_query_relevant(state: AgentState) -> bool:
-    """Return True if the query passed moderation (is relevant)."""
+    """Воспомогательная функция для проверки модерации."""
     moderation_output = state.get("moderation_output")
     if moderation_output is None:
         print("Moderation output not found in state, treating as irrelevant")

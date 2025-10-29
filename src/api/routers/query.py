@@ -14,6 +14,20 @@ async def query_endpoint(
     user_request: UserRequest,
     graph=Depends(get_compiled_graph)
 ):
+    """
+    Endpoint to query the chatbot.
+
+    Args:
+        user_request: UserRequest - contains the query to be processed
+            by the chatbot.
+        graph: CompiledStateGraph - the compiled graph of agents and tools.
+
+    Returns:
+        ChatbotResponse - the response from the chatbot.
+
+    Raises:
+        HTTPException - if the query endpoint fails.
+    """
     try:
         chatbot = ChatBot(graph=graph)
         response = await chatbot.run(user_request)

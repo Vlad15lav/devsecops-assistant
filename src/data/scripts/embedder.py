@@ -3,6 +3,8 @@ from sentence_transformers import SentenceTransformer
 
 
 class TextEmbedder:
+    """Класс для векторизации текста."""
+
     def __init__(self, model_name: Optional[str] = None, device: str = "cpu"):
         self.hf_model = SentenceTransformer(model_name, device=device)
 

@@ -7,7 +7,7 @@ from src.data.adapters.vectore_store_db import VectorStoreDB
 
 
 class SQLQueryInput(BaseModel):
-    """Input schema for SQL query tool."""
+    """Входные параметры для SQLTool."""
 
     query: str = Field(
         min_length=1,
@@ -29,7 +29,7 @@ class SQLQueryInput(BaseModel):
 
 
 class SQLTool(BaseTool):
-    """Tool for executing SQL queries on the database using SQLAlchemy."""
+    """Инструмент для выполнения SQL-запросов."""
 
     name: str = "sql_tool"
     description: str = (
@@ -40,7 +40,7 @@ class SQLTool(BaseTool):
     args_schema: Type[BaseModel] = SQLQueryInput
 
     async def _arun(self, query: str, user_query: str, **kwargs) -> str:
-        """Execute SQL SELECT query on the database."""
+        """Выполняет SQL-запрос и возвращает результаты."""
         try:
             query = query.replace('"', "'")
             # Validate that only SELECT queries are allowed
@@ -64,5 +64,5 @@ class SQLTool(BaseTool):
             return f"SQL tool failed: {exc}"
 
     def _run(self, query: str, **kwargs) -> str:
-        """Synchronous version - not implemented as we use async."""
+        """Синхронная версия инструмента."""
         raise NotImplementedError("Use async version of the tool")

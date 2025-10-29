@@ -13,7 +13,7 @@ class ModerationAgent(BaseAgent):
         )
 
     def _prepare_input(self, state: AgentState) -> AgentState:
-        """Prepare input for the moderation agent."""
+        """Преподготовка входных данных."""
         return state
 
     async def _handle_output(
@@ -21,6 +21,6 @@ class ModerationAgent(BaseAgent):
         result: ModerationOutput,
         state: AgentState
     ) -> AgentState:
-        """Store the moderation result."""
+        """Запись результата в историю сообщений."""
         state["moderation_output"] = result
         return state

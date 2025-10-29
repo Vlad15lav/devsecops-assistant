@@ -58,6 +58,7 @@ class BaseAgent:
         self,
         name: Optional[str] = None
     ) -> ChatPromptTemplate:
+        """Создает системный промпт для агента на основе шаблона из файла."""
         template_text = self.get_system_prompt()
 
         prompt_template = ChatPromptTemplate(
@@ -74,6 +75,7 @@ class BaseAgent:
         return prompt_template
 
     def _create_runnable_chain(self) -> Runnable:
+        """Создает цепочку Runnable для работы с LLM."""
         if self.llm is None:
             if self.settings.llm_provider == "openai":
                 model = ChatOpenAI(
@@ -151,6 +153,7 @@ class BaseAgent:
         state: AgentState,
         tool_name: Optional[str] = None
     ) -> Optional[ToolMessage]:
+        """Получает последнее сообщение инструмента."""
         # Validate that tools are provided to this agent
         if not self.tools:
             return None
@@ -180,6 +183,7 @@ class BaseAgent:
         state: AgentState,
         tool_name: Optional[str] = None
     ) -> Optional[Any]:
+        """Извлекает данные из последнего сообщения инструмента."""
         last_tool_message = self._get_last_tool_message(state, tool_name)
         if not last_tool_message:
             return None
