@@ -52,10 +52,8 @@ class SQLTool(BaseTool):
             return json.dumps(results, ensure_ascii=False, default=str)
 
         except ValueError as exc:
-            print(exc)
             return f"SQL query failed: {str(exc)}"
         except Exception as exc:
-            print(exc)
             return f"SQL tool failed: {exc}"
 
     def _run(self, query: str, **kwargs) -> str:
