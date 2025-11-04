@@ -54,10 +54,9 @@ def get_compiled_graph():
     graph.add_conditional_edges(
         "rag_agent",
         _needs_tool,
-        {True: "tools", False: END}
+        {True: "tools", False: "writer_agent"}
     )
     graph.add_edge("tools", "rag_agent")
-    graph.add_edge("rag_agent", "writer_agent")
     graph.add_edge("writer_agent", END)
 
     compiled_graph = graph.compile()

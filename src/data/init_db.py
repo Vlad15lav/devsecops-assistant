@@ -120,6 +120,9 @@ class DatabaseInitializer:
             chunks = chunker.execute(
                 text=document
             )
+            for idx, chunk in enumerate(chunks):
+                chunks[idx] = f"{filename}: {chunk}"
+
             embeddings = embedder.execute(chunks)
             await pgvector_uploader.execute(
                 filename=filename,

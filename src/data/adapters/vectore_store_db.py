@@ -42,28 +42,10 @@ class VectorStoreDB:
         if len(user_query) == 0:
             raise ValueError("Запрос пользователя не должен быть пустым!")
 
-        filename_valid = filename.lower()
-
-        if "vps" in filename_valid:
-            filename = "Безопасность vps сервера.pdf"
-        elif "docker" in filename_valid:
-            filename = "Безопасность Docker.pdf"
-        elif "ci_cd" in filename_valid:
-            filename = "Безопасность CI_CD.pdf"
-        elif "k8s" in filename_valid or "kubernetes" in filename_valid:
-            filename = "Методы защиты k8s.pdf"
-        else:
-            raise ValueError(
-                "Не удалось определить файл. "
-                "Файл должнен содержаться имя: "
-                "'Безопасность vps сервера.pdf', "
-                "'Безопасность Docker.pdf', "
-                "'Безопасность CI_CD.pdf', "
-                "'Методы защиты k8s.pdf'."
-            )
-
         # Получаем embedding от модели
-        emb = self.hf_model.encode(user_query)
+        emb = self.hf_model.encode(
+            f"{filename}: {user_query}"
+        )
         try:
             vec_list = [float(x) for x in emb]
         except Exception as e:
@@ -78,9 +60,8 @@ class VectorStoreDB:
         query = """
             SELECT content
             FROM documents
-            WHERE filename = $1
-            ORDER BY embedding <=> $2::vector ASC
-            LIMIT $3
+            ORDER BY embedding <=> $1::vector ASC
+            LIMIT $2
         """
         # Используем асинхронный context manager класса для подключения
         async with self:
@@ -89,7 +70,6 @@ class VectorStoreDB:
             try:
                 rows = await self.conn.fetch(
                     query,
-                    filename,
                     vec_lit,
                     AppSettings().top_k_docs
                 )
