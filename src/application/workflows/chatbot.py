@@ -1,3 +1,5 @@
+import logging
+
 from typing import List
 from langchain.schema import BaseMessage, HumanMessage
 from langgraph.graph.state import CompiledStateGraph
@@ -56,5 +58,5 @@ class ChatBot:
 
             return chatbot_response
         except Exception as e:
-            print("[Chatbot] Chatbot execution failed: %s", str(e))
+            logging.error("[Chatbot] Chatbot execution failed: %s", str(e))
             raise

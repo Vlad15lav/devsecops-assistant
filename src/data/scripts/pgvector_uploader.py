@@ -1,4 +1,5 @@
 import asyncpg
+import logging
 
 from typing import List
 
@@ -71,7 +72,7 @@ class PgVectorUploader:
                         emb_literal,
                     )
         except Exception as e:
-            print(f"Error inserting records: {e}")
+            logging.exception(f"Error inserting records: {e}")
             if self.conn:
                 await self.conn.close()
             self.conn = None

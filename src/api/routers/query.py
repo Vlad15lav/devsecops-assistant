@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import APIRouter, Depends, HTTPException
 
 from src.application.workflows.graph import get_compiled_graph
@@ -37,11 +39,11 @@ async def query_endpoint(
         # Handle validation errors (e.g., chat not found)
         error_msg = str(exc)
         if "not found" in error_msg:
-            print(f"Chat not found: {error_msg}")
+            logging.warning(f"Chat not found: {error_msg}")
             raise HTTPException(status_code=404, detail=error_msg)
         raise HTTPException(status_code=400, detail=error_msg)
 
     except Exception as exc:
         # Log full stacktrace for easier debugging
-        print(f"Query endpoint failed: {str(exc)}")
+        logging.exception(f"Query endpoint failed: {str(exc)}")
         raise HTTPException(status_code=500, detail=str(exc))

@@ -1,4 +1,5 @@
 import os
+import logging
 
 from abc import abstractmethod
 from typing import Optional, Any
@@ -145,7 +146,9 @@ class BaseAgent:
             return updated_state
 
         except Exception as e:
-            print("[%s] Агент произошла ошибка: %s", self.name, str(e))
+            logging.exception(
+                "[%s] Агент произошла ошибка: %s", self.name, str(e)
+            )
             raise
 
     def _get_last_tool_message(
@@ -199,4 +202,9 @@ class BaseAgent:
             data = json.loads(last_tool_message.content)
             return data
         except (json.JSONDecodeError, ValueError, TypeError):
+            logging.warning(
+                "Ошибка парсинга JSON от инструмента %s: %s",
+                tool_name,
+                last_tool_message.content
+            )
             return None

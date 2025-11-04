@@ -1,4 +1,5 @@
 import os
+import logging
 import asyncpg
 import yaml
 import pymupdf4llm
@@ -70,6 +71,7 @@ class DatabaseInitializer:
                 )
                 """
             )
+            logging.info("Таблаца documents создана")
         finally:
             await conn.close()
 
@@ -110,7 +112,7 @@ class DatabaseInitializer:
             filename = source["name"]
 
             if await pgvector_uploader.exists(filename):
-                print(f"Файл '{filename}' уже загружен, пропуск.")
+                logging.info(f"Файл '{filename}' уже загружен, пропуск.")
                 continue
 
             pdf_path = os.path.join(self.settings.upload_path, "pdf", filename)
@@ -129,7 +131,9 @@ class DatabaseInitializer:
                 chunks=chunks,
                 embeddings=embeddings
             )
-            print(f"Загружен файл '{filename}' с {len(chunks)} чанками.")
+            logging.info(
+                f"Загружен файл '{filename}' с {len(chunks)} чанками."
+            )
 
 
 if __name__ == "__main__":

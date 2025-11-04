@@ -1,14 +1,16 @@
+import logging
+
+from langchain_core.messages import AIMessage
 from langgraph.graph import StateGraph, START, END
+from langgraph.prebuilt import ToolNode
+
 
 from src.application.models.agent_state import AgentState
-from langchain_core.messages import AIMessage
-
 from src.application.agents.moderation_agent import ModerationAgent
 from src.application.agents.rag_agent import RAGAgent
 from src.application.agents.writer_agent import WriterAgent
 
 from src.application.tools.sql_tool import SQLTool
-from langgraph.prebuilt import ToolNode
 
 
 def _needs_tool(state: AgentState) -> bool:
@@ -26,7 +28,9 @@ def _is_query_relevant(state: AgentState) -> bool:
     """Воспомогательная функция для проверки модерации."""
     moderation_output = state.get("moderation_output")
     if moderation_output is None:
-        print("Moderation output not found in state, treating as irrelevant")
+        logging.warning(
+            "Moderation output not found in state, treating as irrelevant"
+        )
         return False
     return moderation_output.is_relevant
 
