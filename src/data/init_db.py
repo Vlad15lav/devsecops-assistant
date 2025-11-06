@@ -15,13 +15,7 @@ from src.settings.app_settigns import AppSettings
 
 
 class DatabaseInitializer:
-    """
-    Инициализация базы данных RAG:
-    - create_database(admin_dsn, db_name)
-    - create_tables(dsn)
-    - execute(dsn, files_name_list, pdf_urls, download_path, ...)
-    - run_all(files_name_list, pdf_urls) — выполняет всё по настройкам
-    """
+    """Инициализация базы данных RAG"""
 
     def __init__(self):
         self.settings = AppSettings()
