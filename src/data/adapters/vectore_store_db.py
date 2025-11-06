@@ -36,7 +36,6 @@ class VectorStoreDB:
     async def execute(
         self,
         user_query: str,
-        filename: str,
         **kwargs
     ) -> List[str]:
         if len(user_query) == 0:

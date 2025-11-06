@@ -16,17 +16,6 @@ class SQLQueryInput(BaseModel):
             "to generate the vector for the SQL query."
         )
     )
-    filename: str = Field(
-        min_length=1,
-        description=(
-            "Название одного из файлов, "
-            "с которым связан запрос пользователя:\n"
-            "- 'Безопасность vps сервера.pdf'\n"
-            "- 'Безопасность Docker.pdf'\n"
-            "- 'Безопасность CI_CD.pdf'\n"
-            "- 'Методы защиты k8s.pdf'"
-        ),
-    )
 
 
 class SQLTool(BaseTool):
@@ -46,7 +35,6 @@ class SQLTool(BaseTool):
             db = VectorStoreDB()
             results = await db.execute(
                 user_query=user_query,
-                filename=filename,
                 **kwargs
             )
             return json.dumps(results, ensure_ascii=False, default=str)
