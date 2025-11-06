@@ -43,9 +43,7 @@ class VectorStoreDB:
             raise ValueError("Запрос пользователя не должен быть пустым!")
 
         # Получаем embedding от модели
-        emb = self.hf_model.encode(
-            f"{filename}: {user_query}"
-        )
+        emb = self.hf_model.encode(user_query)
         try:
             vec_list = [float(x) for x in emb]
         except Exception as e:

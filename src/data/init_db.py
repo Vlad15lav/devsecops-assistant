@@ -43,10 +43,10 @@ class DatabaseInitializer:
                 target_db
             )
             if row:
-                print(f"База данных {target_db} уже существует")
+                logging.info(f"База данных {target_db} уже существует")
                 return
             await conn.execute(f'CREATE DATABASE "{target_db}"')
-            print(f"База данных {target_db} создана")
+            logging.info(f"База данных {target_db} создана")
         finally:
             await conn.close()
 
@@ -122,8 +122,6 @@ class DatabaseInitializer:
             chunks = chunker.execute(
                 text=document
             )
-            for idx, chunk in enumerate(chunks):
-                chunks[idx] = f"{filename}: {chunk}"
 
             embeddings = embedder.execute(chunks)
             await pgvector_uploader.execute(
@@ -131,6 +129,7 @@ class DatabaseInitializer:
                 chunks=chunks,
                 embeddings=embeddings
             )
+
             logging.info(
                 f"Загружен файл '{filename}' с {len(chunks)} чанками."
             )
